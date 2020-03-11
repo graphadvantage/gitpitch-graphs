@@ -1,12 +1,13 @@
 
 ---
 
-
+@title[title]
 # gremlin
 
 for cypher developers
 
 ---
+@title[gremlin vs cypher]
 @snap[north span-100]
 ## gremlin ••• cypher
 @snapend
@@ -22,6 +23,7 @@ for cypher developers
 @snapend
 
 ---
+@title[things to know]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](things to know about gremlin)
@@ -39,6 +41,7 @@ for cypher developers
 @snapend
 
 ---
+@title[resources]
 @snap[north-east span-100]
 ## resources
 @snapend
@@ -72,6 +75,7 @@ docker pull neueda/cypher-gremlin-console
 ```
 @snapend
 ---
+@title[gremlin docs]
 @snap[north-east span-100]
 ## docs
 [gremlin tinkerpop documentation](http://tinkerpop.apache.org/docs/current/reference/#_tinkerpop_documentation)
@@ -82,6 +86,7 @@ docker pull neueda/cypher-gremlin-console
 @snapend
 
 ---
+@title[gremlin book]
 @snap[north-east span-100]
 ## book
 [practical gremlin by k. lawrence](https://github.com/krlawrence/graph  & http://kelvinlawrence.net/book/PracticalGremlin.html)
@@ -92,6 +97,7 @@ docker pull neueda/cypher-gremlin-console
 @snapend
 
 ---
+@title[gremlin cheatsheet]
 @snap[north-west span-100]
 ## cheatsheet
 [gremlin cheatsheet](https://dkuppitz.github.io/gremlin-cheat-sheet/101.html)
@@ -108,6 +114,7 @@ docker pull neueda/cypher-gremlin-console
 let's start
 
 ---
+@title[setup a sandbox]
 @snap[north-east span-100]
 ## a learning sandbox
 @snapend
@@ -126,6 +133,7 @@ let's start
 @snapend
 
 ---
+@title[gremlin server]
 @snap[north-east span-100]
 ## gremlin server
 @snapend
@@ -155,6 +163,7 @@ Server to run in the foreground or specify it via the GREMLIN_YAML environment v
 @snapend
 
 ---
+@title[gremlin-console]
 @snap[north-east span-100]
 ## gremlin console
 @snapend
@@ -182,7 +191,7 @@ gremlin> :remote console
 ```
 @snapend
 ---
-
+@title[gremlin notebooks]
 @snap[north-east span-100]
 ## gremlin
 ## notebooks
@@ -217,7 +226,7 @@ gremlin> :remote console
 @snapend
 
 ---
-
+@title[gremlin visualizer]
 @snap[north-east span-100]
 ## gremlin visualizer
 @snapend
@@ -236,7 +245,7 @@ g.V().limit(30)
 @snapend
 
 ---
-
+@title[get some nodes]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](get some nodes)
@@ -262,6 +271,7 @@ RETURN n LIMIT 5
 @snapend
 
 ---
+@title[get node properties]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](get node properties)
@@ -287,6 +297,7 @@ RETURN n
 @snapend
 
 ---
+@title[count graph nodes]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](count the nodes)
@@ -308,6 +319,7 @@ RETURN COUNT(n)
 @snapend
 
 ---
+@title[count graph rels]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](count the relationships)
@@ -330,6 +342,7 @@ RETURN COUNT(r)
 @snapend
 
 ---
+@title[collect nodes to list]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](collect the nodes)
@@ -352,6 +365,7 @@ RETURN COLLECT(n)
 @snapend
 
 ---
+@title[get property values]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](get property values)
@@ -378,6 +392,7 @@ RETURN n.code LIMIT 5
 @snapend
 
 ---
+@title[map project from labeled node]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](map projection from labeled node)
@@ -406,6 +421,7 @@ RETURN {'airport_code':n.code,
 @snapend
 
 ---
+@title[count outgoing rels]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](count outgoing relationships)
@@ -430,6 +446,7 @@ RETURN COUNT(p)
 @snapend
 
 ---
+@title[traverse and count distinct]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](count distinct end node properties)
@@ -454,6 +471,7 @@ RETURN COUNT(distinct d.region)
 
 
 ---
+@title[order by property on rel]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](order by relationship property)
@@ -481,6 +499,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[make a node]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](make a node)
@@ -499,6 +518,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[update node props]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](update properties)
@@ -517,6 +537,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[make a rel]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](make a relationship)
@@ -535,6 +556,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[refactor from list]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](refactor from list iterator)
@@ -553,6 +575,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[use parameters]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](use parameters)
@@ -571,6 +594,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[optional matching]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](optional matching)
@@ -589,6 +613,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[static variables]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](create and pass static variable)
@@ -607,6 +632,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[pattern matching]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](pattern matching)
@@ -625,6 +651,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[recursion]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](recursive queries)
@@ -643,6 +670,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[loops]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](loops)
@@ -661,6 +689,7 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+@title[grouping]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](grouping)
