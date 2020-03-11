@@ -71,6 +71,41 @@ docker pull neueda/cypher-gremlin-server
 docker pull neueda/cypher-gremlin-console
 ```
 @snapend
+---
+@snap[north-east span-100]
+## docs
+[gremlin tinkerpop documentation](http://tinkerpop.apache.org/docs/current/reference/#_tinkerpop_documentation)
+@snapend
+
+@snap[south-west]
+![](/assets/img/gremlin-docs.png)
+@snapend
+
+---
+@snap[north-east span-100]
+## book
+[practical gremlin by k. lawrence](https://github.com/krlawrence/graph  & http://kelvinlawrence.net/book/PracticalGremlin.html)
+@snapend
+
+@snap[south-east span=100]
+![width=575](/assets/img/practical-gremlin.png)
+@snapend
+
+---
+@snap[north-west span-100]
+## cheatsheet
+[gremlin cheatsheet](https://dkuppitz.github.io/gremlin-cheat-sheet/101.html)
+@snapend
+
+@snap[south-west span=100]
+![width=650](/assets/img/gremlin-cheatsheet.png)
+@snapend
+
+---
+
+@title[let's start]
+
+let's start
 
 ---
 @snap[north-east span-100]
@@ -193,39 +228,14 @@ gremlin> :remote console
 
 @snap[west span-15 text-08]
 [gremlin-visualizer](https://github.com/prabushitha/gremlin-visualizer)
+try:
+```js code-noblend zoom-07
+g.V().limit(30)
+```
+
 @snapend
 
 ---
-@snap[north-east span-100]
-## docs
-[gremlin tinkerpop documentation](http://tinkerpop.apache.org/docs/current/reference/#_tinkerpop_documentation)
-@snapend
-
-@snap[south-west]
-![](/assets/img/gremlin-docs.png)
-@snapend
-
----
-@snap[north-east span-100]
-## book
-[practical gremlin by k. lawrence](https://github.com/krlawrence/graph  & http://kelvinlawrence.net/book/PracticalGremlin.html)
-@snapend
-
-@snap[south-east span=100]
-![width=575](/assets/img/practical-gremlin.png)
-@snapend
-
----
-@snap[north-west span-100]
-## cheatsheet
-[gremlin cheatsheet](https://dkuppitz.github.io/gremlin-cheat-sheet/101.html)
-@snapend
-
-@snap[south-west span=100]
-![width=650](/assets/img/gremlin-cheatsheet.png)
-@snapend
----
-
 
 @snap[north span-100]
 ## gremlin ••• cypher
