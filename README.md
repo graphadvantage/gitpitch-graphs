@@ -1,2 +1,0 @@
-# intro-to-graphs
-gitpitch

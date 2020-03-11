@@ -1,0 +1,9 @@
+#title-footer { display: none !important; }
+div.progress  { display: none !important; }
+
+.headline {
+  color: #74FAA8;
+  font-weight: bold;
+  font-size: 1em !important;
+  font-variant: small-caps !important;
+}

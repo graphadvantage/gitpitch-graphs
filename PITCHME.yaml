@@ -1,0 +1,55 @@
+#
+# Slide Design Templates Deck Settings
+#
+
+published : true
+
+#
+# The Theme Template
+# Doc: https://gitpitch.com/docs/themes/default
+#
+#theme : template
+#theme-background : [ "linear-gradient(100deg, white 60%, #1F6ED4 40.2%)" ]
+#theme-headline   : [ "Montserrat", "#333", "none" ]
+#theme-byline     : [ "Montserrat", "#111111", "none" ]
+#theme-text       : [ "Raleway", "#1C1C1C", "none" ]
+#theme-links      : [ "#FFF", "#E27924" ]
+#theme-code       : [ "Fira Code" ]
+#theme-controls   : [ "#C0C0C0" ]
+#theme-margins    : [ "0", "15px" ]
+
+#
+# Logo Setting
+# https://gitpitch.com/docs/settings/logo
+#
+
+controls-layout : edges
+
+transition : none
+
+code-line-numbers : false
+
+#charts : true
+#mathjax : TeX-AMS_HTML-full
+
+# PITCHME-DOT-YAML-SETTINGS-THEME-BUILDER-GENERATED-START
+theme            : template
+theme-background : [ "#1E5C97" ]
+theme-headline   : [ "Montserrat", "#74FAA8", "none", "#FFFFFF", "100", "120", "15" ]
+theme-byline     : [ "Montserrat", "#FFFFFF", "none", "#74FAA8", "100", "110", "15" ]
+theme-text       : [ "Raleway", "#FFFFFF", "none", "#24D7B0", "100", "100", "15" ]
+theme-links      : [ "#1E5C97", "#E27924" ]
+theme-code       : [ "Source Code Pro", "100", "120" ]
+highlight        : monokai
+theme-controls   : [ "#C0C0C0" ]
+theme-margins    : [ "0", "15px" ]
+logo             : assets/img/logo.png
+logo-position    : top-left
+layout           : center-right
+# PITCHME-DOT-YAML-SETTINGS-THEME-BUILDER-GENERATED-END
+
+theme-override   : assets/css/PITCHME.css
+
+title : "gremlin"
+description : "gremlin for cypher developers"
+footnote : "there is no try, only do and do not"
