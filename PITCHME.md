@@ -4,7 +4,7 @@
 
 # gremlin
 
-[for cypher developers]
+for cypher developers
 
 ---
 @snap[north span-100]
@@ -120,7 +120,7 @@ RETURN COUNT(r)
 @css[headline](collect the nodes)
 @snapend
 
-@snap[west span-48 java code-noblend]
+@snap[west span-66 java code-noblend]
 ```js
 g.V().limit(5).fold()
 
@@ -128,7 +128,7 @@ g.V().limit(5).fold()
 ```
 @snapend
 
-@snap[east span-48 java code-noblend]
+@snap[south-east span-48 java code-noblend]
 ```js
 MATCH (n)
 WITH n LIMIT 5
