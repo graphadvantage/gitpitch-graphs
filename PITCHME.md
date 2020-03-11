@@ -392,7 +392,7 @@ RETURN n.code LIMIT 5
 @snapend
 
 ---
-@title[map project from labeled node]
+@title[map projection]
 @snap[north span-100]
 ## gremlin ••• cypher
 @css[headline](map projection from labeled node)
