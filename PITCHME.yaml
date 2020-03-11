@@ -45,7 +45,7 @@ theme-background : [ "#1E5C97" ]
 theme-headline   : [ "Montserrat", "#74FAA8", "none", "#FFFFFF", "100", "120", "15" ]
 theme-byline     : [ "Montserrat", "#FFFFFF", "none", "#74FAA8", "100", "110", "15" ]
 theme-text       : [ "Raleway", "#FFFFFF", "none", "#24D7B0", "100", "100", "15" ]
-theme-links      : [ "#1E5C97", "#E27924" ]
+theme-links      : [ "#E67E22", "#E27924" ]
 theme-code       : [ "Source Code Pro", "120", "120" ]
 highlight        : a11y-dark
 theme-controls   : [ "#C0C0C0" ]

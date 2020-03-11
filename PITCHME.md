@@ -24,6 +24,211 @@ for cypher developers
 ---
 @snap[north span-100]
 ## gremlin ••• cypher
+@css[headline](things to know about gremlin)
+@snapend
+
+@snap[text-08]
+* One label per node (no label-based set operations)
+* Data can be stored on vertices (nodes) and edges (rels)
+* Import data: `graph.io(graphml()).readGraph(‘file’)`
+* Delete graph: `g.V().drop().iterate()`
+* `.next()` is used  to manage output rowsets => `RETURN`
+* `.fold()` makes lists => like `COLLECT`
+* `.unfold()` pivots lists (into maps) => (kind of) like `UNWIND`
+* `.group()` makes maps
+@snapend
+
+---
+@snap[north-east span-100]
+## resources
+@snapend
+
+@snap[south-west span-50 text-06]
+#### cheatsheet
+[gremlin cheatsheet](https://dkuppitz.github.io/gremlin-cheat-sheet/101.html)
+
+#### repos and documentation
+[gremlin console and server](http://tinkerpop.apache.org/downloads.html)
+[learn gremlin jupyter notebooks](https://github.com/AndrewChau/learn-gremlin-jupyter-notebook)
+[practical gremlin book](https://github.com/krlawrence/graph  & http://kelvinlawrence.net/book/PracticalGremlin.html)
+[gremlin documentation](http://tinkerpop.apache.org/docs/current/reference/#_tinkerpop_documentation)
+[gremlin recipes](http://tinkerpop.apache.org/docs/current/recipes/)
+[gremlin neptune sample code](https://github.com/aws-samples/amazon-neptune-samples)
+[neptune tools](https://github.com/awslabs/amazon-neptune-tools)
+[openCypher](https://github.com/opencypher/openCypher)
+[cypher for gremlin](https://github.com/opencypher/cypher-for-gremlin)
+[graph plugin for intelliJ](https://github.com/neueda/jetbrains-plugin-graph-database-support)
+[neptune tinkerpop 3.4](https://aws.amazon.com/blogs/database/amazon-neptune-now-supports-tinkerpop-3-4-features/)
+@snapend
+
+@snap[east span-50 text-06 code-noblend]
+#### docker images
+```docker zoom-08
+docker pull gremlin-local_neptune-ui            
+docker pull tinkerpop/gremlin-server
+docker pull tinkerpop/gremlin-console
+docker pull neueda/cypher-gremlin-server
+docker pull neueda/cypher-gremlin-console
+```
+@snapend
+
+---
+@snap[north-east span-100]
+## a learning sandbox
+@snapend
+
+@snap[west span-100 text-06]
+1. install and start gremlin console `$ bin/gremlin.sh`  [download](http://tinkerpop.apache.org/downloads.html)
+1. install and start gremlin server `$ bin/gremlin-server.sh console`  [download](http://tinkerpop.apache.org/downloads.html)
+1. install anaconda /jupyter notebook [download](https://www.anaconda.com/distribution/)
+1. from terminal `$ pip install gremlinpython`
+1. and `$ pip install nbfinder`
+1. and `$ pip install jupyter notebook==5.7.8 tornado==4.5.3` [why?](https://github.com/jupyter/notebook/issues/3397)
+1. clone [learn-gremlin-jupyter-notebooks](https://github.com/AndrewChau/learn-gremlin-jupyter-notebook)
+1. run anaconda, start jupyter, open and run loader.ipynb, trust the notebook
+1. install node.js, clone, install and start [gremlin-visualizer](https://github.com/prabushitha/gremlin-visualizer)
+1. open gremlin console, remote to gremlin server, load air-routes graph (next slide)
+@snapend
+
+---
+@snap[north-east span-100]
+## gremlin server
+@snapend
+
+@snap[span-100 code-noblend]
+```default zoom-06 code-wrap
+Usage: bin/gremlin-server.sh {start|stop|restart|status|console|install <group> <artifact> <version>|<conf file>}
+    start        Start the server in the background using conf/gremlin-server.yaml as the default configuration file
+    stop         Stop the server
+    restart      Stop and start the server
+    status       Check if the server is running
+    console      Start the server in the foreground using conf/gremlin-server.yaml as the default configuration file
+    install      Install dependencies
+If using a custom YAML configuration file then specify it as the only argument for Gremlin
+Server to run in the foreground or specify it via the GREMLIN_YAML environment variable.
+(base) USC02ZX15JMD6R:apache-tinkerpop-gremlin-server-3.4.6 Michael.Moore4@ey.com$ bin/gremlin-server.sh console
+[INFO] GremlinServer - 3.4.6
+         \ooo/
+         (o o)
+=====oOOo-(3)-oOOo=====
+[INFO] GremlinServer - Configuring Gremlin Server from /Users/Michael.Moore4@ey.com/Documents/apache-tinkerpop-gremlin-server-3.4.6/conf/gremlin-server.yaml
+[INFO] MetricManager - Configured Metrics ConsoleReporter configured with report interval=180000ms
+*** many messages later ***
+[INFO] GremlinServer$1 - Gremlin Server configured with worker thread pool of 1, gremlin pool of 16 and boss thread pool of 1.
+[INFO] GremlinServer$1 - Channel started at port 8182.
+```
+@snapend
+
+---
+@snap[north-east span-100]
+## gremlin console
+@snapend
+
+@snap[span-100 code-noblend]
+```default zoom-06 code-wrap
+(base) USC02ZX15JMD6R:apache-tinkerpop-gremlin-console-3.4.4 Michael.Moore4@ey.com$ bin/gremlin.sh
+         \ooo/
+         (o o)
+=====oOOo-(3)-oOOo=====
+plugin activated: tinkerpop.server
+plugin activated: tinkerpop.utilities
+plugin activated: opencypher.gremlin
+plugin activated: tinkerpop.tinkergraph
+gremlin> :remote connect tinkerpop.server conf/remote.yaml
+==>Configured localhost/127.0.0.1:8182, localhost/0:0:0:0:0:0:0:1:8182
+gremlin> :remote list
+==>*0 - Gremlin Server - [localhost/127.0.0.1:8182, localhost/0:0:0:0:0:0:0:1:8182]
+gremlin> :> graph.io(graphml()).readGraph('/Users/Michael.Moore4@ey.com/Documents/GitHub/learn-gremlin-jupyter-notebook/data/air-routes.graphml')
+==>null
+gremlin> :> g.V().count()
+==>3619
+gremlin> :remote console
+==>All scripts will now be sent to Gremlin Server - [localhost/127.0.0.1:8182, localhost/0:0:0:0:0:0:0:1:8182] - type ':remote console' to return to local mode
+```
+@snapend
+---
+
+@snap[north-east span-100]
+## gremlin
+## notebooks
+[learn-gremlin-jupyter-notebooks](https://github.com/AndrewChau/learn-gremlin-jupyter-notebook)
+@snapend
+
+@snap[west span-30 text-04]
+01. V, Has, HasLabel, HasId, Count, ValueMap, Values, Unfold, Fold, HasNot, Not.ipynb
+02. E, OutE, InV, Out, InE, OuV, In.ipynb
+03. GroupCount, Group.ipynb
+04. Gt, Lt, Between, Within, Mean, Dedup, Where, Neq, Limit, Range, Skip, Tail, TimeLimit.ipynb
+05. Path, Repeat, Times, From, To.ipynb
+06. Select, Project.ipynb
+07. ToList, Join, ToSet, ToBulkSet, Size, UniqueSize, AsBulk, Fill.ipynb
+08. Label.ipynb
+09. Mean, Local, Sum, Max, Min.ipynb
+10. Eq, Neq, Not, And, Or, Gt, Gte, Lt, Lte, Inside, Outside, Within, Without, Between.ipynb
+11. Coin, Sample.ipynb
+12. Order.ipynb
+13. Where, Filter.ipynb
+14. Choose, Constant, Option, Match.ipynb
+15. Union, Identity.ipynb
+16. SideEffect, Aggregate, Inject, Coalesce, Optional.ipynb
+17. Both, BothE, BothV, OtherV.ipynb
+18. SimplePath, Until, Loops, Emit, CyclicPath.ipynb
+19. Math.ipynb
+20. loader.ipynb
+@snapend
+
+@snap[south-east]
+![width=650](/assets/img/gremlin-notebooks.png)
+@snapend
+
+---
+
+@snap[north-east span-100]
+## gremlin visualizer
+@snapend
+
+@snap[south-east]
+![width=850](/assets/img/gremlin-visualizer.png)
+@snapend
+
+@snap[west span-15 text-08]
+[gremlin-visualizer](https://github.com/prabushitha/gremlin-visualizer)
+@snapend
+
+---
+@snap[north-east span-100]
+## docs
+[gremlin tinkerpop documentation](http://tinkerpop.apache.org/docs/current/reference/#_tinkerpop_documentation)
+@snapend
+
+@snap[south-west]
+![](/assets/img/gremlin-docs.png)
+@snapend
+
+---
+@snap[north-east span-100]
+## book
+[practical gremlin by k. lawrence](https://github.com/krlawrence/graph  & http://kelvinlawrence.net/book/PracticalGremlin.html)
+@snapend
+
+@snap[south-east span=100]
+![width=575](/assets/img/practical-gremlin.png)
+@snapend
+
+---
+@snap[north-west span-100]
+## cheatsheet
+[gremlin cheatsheet](https://dkuppitz.github.io/gremlin-cheat-sheet/101.html)
+@snapend
+
+@snap[south-west span=100]
+![width=650](/assets/img/gremlin-cheatsheet.png)
+@snapend
+---
+
+
+@snap[north span-100]
+## gremlin ••• cypher
 @css[headline](get some nodes)
 @snapend
 
