@@ -397,8 +397,8 @@ RETURN COLLECT(n)
 
 @snap[south-west span-48 css code-noblend]
 ``` css
-g.V().valueMap('code') \
-  .limit(5)
+g.V().valueMap('code').
+      limit(5)
 
 ==>{code=[0.77]}
 ==>{code=[ATL]}
@@ -425,16 +425,16 @@ RETURN n.code LIMIT 5
 
 @snap[west span-75 css code-noblend]
 ``` css
-g.V().hasLabel('airport') \
-  .limit(10) \
-  .project('airport_code','elevation') \
-  .by('code').by('elev')
+g.V().hasLabel('airport').
+      limit(10).
+      project('airport_code','elevation').
+      by('code').by('elev')
 
 ==>{airport_code=ATL, elevation=1026}
 ==>{airport_code=ANC, elevation=151}
 ==>{airport_code=AUS, elevation=542}
 ```
-** How are ,project() and .by() related? **
+** How are .project() and .by() related? **
 @snapend
 
 @snap[south-east span-75 css code-noblend]
@@ -464,9 +464,9 @@ RETURN {'airport_code':n.code,
 
 @snap[west span-75 css code-noblend]
 ``` css
-g.V().hasLabel('airport') \
-.has('code','AUS').out() \
-.path().count()
+g.V().hasLabel('airport').
+      has('code','AUS').out().
+      path().count()
 
 ==>59
 ```
@@ -490,10 +490,10 @@ RETURN COUNT(p)
 
 @snap[west span-75 css code-noblend]
 ``` css
-g.V().hasLabel('airport') \
-.has('code','AUS').out('route') \
-.path().by('region').dedup().count()
-
+g.V().hasLabel('airport').
+      has('code','AUS').out('route').
+      path().by('region').
+      dedup().count()
 ==>33
 ```
 ** what, exactly, is being deduped? **
@@ -514,13 +514,13 @@ RETURN COUNT(distinct d.region)
 @css[headline](order by relationship property)
 @snapend
 
-@snap[west span-85 css code-noblend]
+@snap[west span-100 css code-noblend]
 ``` css
-g.V().hasLabel('airport') \
-.has('code','LAX').inE('route').as('distance') \
-.outV().as('airport') \
-select('airport','distance').by('city').by('dist') \
-order().by('distance',decr).next()
+g.V().hasLabel('airport').
+      has('code','LAX').inE('route').as('distance').
+      outV().as('airport').
+      select('airport','distance').by('city').by('dist').
+      order().by('distance',decr).next()
 
 ==>airport=Abu Dhabi
 ==>distance=8372
