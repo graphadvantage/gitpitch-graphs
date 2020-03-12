@@ -29,8 +29,8 @@ for cypher developers
 @css[headline](things to know about gremlin)
 @snapend
 
-@snap[text-08]
-* One label per node (no label-based set operations)
+@snap[span-100 text-07 ]
+* One label per node (no label-based set logic operations)
 * Data can be stored on vertices (nodes) and edges (rels)
 * Import data: `graph.io(graphml()).readGraph(‘file’)`
 * Delete graph: `g.V().drop().iterate()`
@@ -38,6 +38,7 @@ for cypher developers
 * `.fold()` makes lists => like `COLLECT`
 * `.unfold()` pivots lists (into maps) => (kind of) like `UNWIND`
 * `.group()` makes maps
+* `.valueMap()` to access property maps
 @snapend
 
 ---
@@ -117,6 +118,7 @@ let's start
 @title[setup a sandbox]
 @snap[north-east span-100]
 ## a learning sandbox
+@css[headline](... the non-I DE for gremlin...)
 @snapend
 
 @snap[west span-100 text-06]
@@ -138,8 +140,9 @@ let's start
 ## gremlin server
 @snapend
 
-@snap[span-100 code-noblend]
-```default zoom-06 code-wrap
+@snap[south span-100 code-noblend code-wrap text-02]
+```css zoom-06
+
 Usage: bin/gremlin-server.sh {start|stop|restart|status|console|install <group> <artifact> <version>|<conf file>}
     start        Start the server in the background using conf/gremlin-server.yaml as the default configuration file
     stop         Stop the server
@@ -149,7 +152,9 @@ Usage: bin/gremlin-server.sh {start|stop|restart|status|console|install <group> 
     install      Install dependencies
 If using a custom YAML configuration file then specify it as the only argument for Gremlin
 Server to run in the foreground or specify it via the GREMLIN_YAML environment variable.
+
 (base) USC02ZX15JMD6R:apache-tinkerpop-gremlin-server-3.4.6 Michael.Moore4@ey.com$ bin/gremlin-server.sh console
+
 [INFO] GremlinServer - 3.4.6
          \ooo/
          (o o)
@@ -159,6 +164,8 @@ Server to run in the foreground or specify it via the GREMLIN_YAML environment v
 *** many messages later ***
 [INFO] GremlinServer$1 - Gremlin Server configured with worker thread pool of 1, gremlin pool of 16 and boss thread pool of 1.
 [INFO] GremlinServer$1 - Channel started at port 8182.
+
+
 ```
 @snapend
 
@@ -168,8 +175,8 @@ Server to run in the foreground or specify it via the GREMLIN_YAML environment v
 ## gremlin console
 @snapend
 
-@snap[span-100 code-noblend]
-```default zoom-06 code-wrap
+@snap[south span-100 code-noblend code-wrap text-02]
+```css zoom-06
 (base) USC02ZX15JMD6R:apache-tinkerpop-gremlin-console-3.4.4 Michael.Moore4@ey.com$ bin/gremlin.sh
          \ooo/
          (o o)
@@ -178,16 +185,22 @@ plugin activated: tinkerpop.server
 plugin activated: tinkerpop.utilities
 plugin activated: opencypher.gremlin
 plugin activated: tinkerpop.tinkergraph
+
 gremlin> :remote connect tinkerpop.server conf/remote.yaml
 ==>Configured localhost/127.0.0.1:8182, localhost/0:0:0:0:0:0:0:1:8182
+
 gremlin> :remote list
 ==>*0 - Gremlin Server - [localhost/127.0.0.1:8182, localhost/0:0:0:0:0:0:0:1:8182]
+
 gremlin> :> graph.io(graphml()).readGraph('/Users/Michael.Moore4@ey.com/Documents/GitHub/learn-gremlin-jupyter-notebook/data/air-routes.graphml')
 ==>null
+
 gremlin> :> g.V().count()
 ==>3619
+
 gremlin> :remote console
 ==>All scripts will now be sent to Gremlin Server - [localhost/127.0.0.1:8182, localhost/0:0:0:0:0:0:0:1:8182] - type ':remote console' to return to local mode
+
 ```
 @snapend
 ---
@@ -237,10 +250,13 @@ gremlin> :remote console
 
 @snap[west span-15 text-08]
 [gremlin-visualizer](https://github.com/prabushitha/gremlin-visualizer)
-try:
-```js code-noblend zoom-07
+example:
+```css code-noblend zoom-07
 g.V().limit(30)
 ```
+
+** no tabular output **
+
 
 @snapend
 
@@ -251,8 +267,8 @@ g.V().limit(30)
 @css[headline](get some nodes)
 @snapend
 
-@snap[west span-48 java code-noblend]
-```
+@snap[west span-48 css code-noblend]
+``` css
 g.V().limit(5)
 
 ==>v[0]
@@ -261,10 +277,11 @@ g.V().limit(5)
 ==>v[3]
 ==>v[4]
 ```
+** see vertex ids? **
 @snapend
 
-@snap[east span-48 java code-noblend]
-```
+@snap[east span-48 css code-noblend]
+``` css
 MATCH (n)
 RETURN n LIMIT 5
 ```
@@ -277,8 +294,8 @@ RETURN n LIMIT 5
 @css[headline](get node properties)
 @snapend
 
-@snap[west span-48 java code-noblend]
-```
+@snap[west span-48 css code-noblend]
+``` css
 g.V(3).valueMap().unfold()
 
 ==>country=[US]
@@ -287,10 +304,11 @@ g.V(3).valueMap().unfold()
 ==>city=[Austin]
 ==>elev=[542]
 ```
+** key value pair on each row of output **
 @snapend
 
-@snap[east span-48 java code-noblend]
-```
+@snap[east span-48 css code-noblend]
+``` css
 MATCH (n) WHERE id(n) = 3
 RETURN n
 ```
@@ -303,16 +321,17 @@ RETURN n
 @css[headline](count the nodes)
 @snapend
 
-@snap[west span-48 java code-noblend]
-```js
+@snap[west span-48 css code-noblend]
+``` css
 g.V().count().next()
 
 ==>3619
 ```
+** .next() terminator is not needed in the gremlin console (but is for groovy scripts) **
 @snapend
 
-@snap[east span-48 java code-noblend]
-```js
+@snap[east span-48 css code-noblend]
+``` css
 MATCH (n)
 RETURN COUNT(n)
 ```
@@ -326,16 +345,17 @@ RETURN COUNT(n)
 @snapend
 
 
-@snap[west span-48 java code-noblend]
-```js
+@snap[west span-48 css code-noblend]
+``` css
 g.E().count().next()
 
 ==>50148
 ```
+** what is referencing the graph edges? **
 @snapend
 
-@snap[east span-48 java code-noblend]
-```js
+@snap[east span-48 css code-noblend]
+``` css
 MATCH (n)-[r]-()
 RETURN COUNT(r)
 ```
@@ -348,16 +368,17 @@ RETURN COUNT(r)
 @css[headline](collect the nodes)
 @snapend
 
-@snap[west span-66 java code-noblend]
-```js
+@snap[west span-66 css code-noblend]
+``` css
 g.V().limit(5).fold()
 
 ==>[v[0], v[1], v[2], v[3], v[4]]
 ```
+** list of nodes on a single row **
 @snapend
 
-@snap[south-east span-48 java code-noblend]
-```js
+@snap[south-east span-48 css code-noblend]
+``` css
 MATCH (n)
 WITH n LIMIT 5
 RETURN COLLECT(n)
@@ -371,8 +392,8 @@ RETURN COLLECT(n)
 @css[headline](get property values)
 @snapend
 
-@snap[west span-48 java code-noblend]
-```js
+@snap[south-west span-48 css code-noblend]
+``` css
 g.V().valueMap('code') \
   .limit(5)
 
@@ -382,10 +403,11 @@ g.V().valueMap('code') \
 ==>{code=[AUS]}
 ==>{code=[BNA]}
 ```
+** returns values of "code" property **
 @snapend
 
-@snap[east span-48 java code-noblend]
-```js
+@snap[east span-48 css code-noblend]
+``` css
 MATCH (n)
 RETURN n.code LIMIT 5
 ```
@@ -398,8 +420,8 @@ RETURN n.code LIMIT 5
 @css[headline](map projection from labeled node)
 @snapend
 
-@snap[west span-75 java code-noblend]
-```js
+@snap[west span-75 css code-noblend]
+``` css
 g.V().hasLabel('airport') \
   .limit(10) \
   .project('airport_code','elevation') \
@@ -409,10 +431,11 @@ g.V().hasLabel('airport') \
 ==>{airport_code=ANC, elevation=151}
 ==>{airport_code=AUS, elevation=542}
 ```
+** How are ,project() and .by() related? **
 @snapend
 
-@snap[south-east span-75 java code-noblend]
-```js
+@snap[south-east span-75 css code-noblend]
+``` css
 MATCH (n:Airport)
 WITH n LIMIT 10
 RETURN {'airport_code':n.code,
@@ -424,21 +447,22 @@ RETURN {'airport_code':n.code,
 @title[count outgoing rels]
 @snap[north span-100]
 ## gremlin ••• cypher
-@css[headline](count outgoing relationships)
+@css[headline](count outgoing relationship paths)
 @snapend
 
-@snap[west span-75 java code-noblend]
-```js
+@snap[west span-75 css code-noblend]
+``` css
 g.V().hasLabel('airport') \
 .has('code','AUS').out() \
 .path().count()
 
 ==>59
 ```
+** what would .both() instead of .out() do? **
 @snapend
 
-@snap[south-east span-75 java code-noblend]
-```js
+@snap[south-east span-75 css code-noblend]
+``` css
 MATCH
 p = (n:Airport {code:'AUS'})-->()
 RETURN COUNT(p)
@@ -452,18 +476,19 @@ RETURN COUNT(p)
 @css[headline](count distinct end node properties)
 @snapend
 
-@snap[west span-75 java code-noblend]
-```js
+@snap[west span-75 css code-noblend]
+``` css
 g.V().hasLabel('airport') \
 .has('code','AUS').out('route') \
 .path().by('region').dedup().count()
 
 ==>33
 ```
+** what, exactly, is being deduped? **
 @snapend
 
-@snap[south-east span-75 java code-noblend]
-```js
+@snap[south-east span-75 css code-noblend]
+``` css
 MATCH (n:Airport {code:'AUS'})-[:ROUTE]->(d)
 RETURN COUNT(distinct d.region)
 ```
@@ -477,8 +502,8 @@ RETURN COUNT(distinct d.region)
 @css[headline](order by relationship property)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 g.V().hasLabel('airport') \
 .has('code','LAX').inE('route').as('distance') \
 .outV().as('airport') \
@@ -488,10 +513,11 @@ order().by('distance',decr).next()
 ==>airport=Abu Dhabi
 ==>distance=8372
 ```
+** what traversal objects are being aliased? **
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 MATCH (n:Airport {code:'LAX'})<-[r:ROUTE]-(o)
 RETURN {'airport':o.city, 'distance':r.dist}
 ORDER BY r.dist DESC LIMIT 1
@@ -505,14 +531,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](make a node)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -524,14 +550,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](update properties)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -543,14 +569,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](make a relationship)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -562,14 +588,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](refactor from list iterator)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -581,14 +607,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](use parameters)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -600,14 +626,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](optional matching)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -619,14 +645,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](create and pass static variable)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -638,14 +664,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](pattern matching)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -657,14 +683,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](recursive queries)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -676,14 +702,14 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](loops)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
 ```
 @snapend
@@ -695,14 +721,47 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](grouping)
 @snapend
 
-@snap[west span-85 java code-noblend]
-```js
+@snap[west span-85 css code-noblend]
+``` css
 
 ```
 @snapend
 
-@snap[south-east span-85 java code-noblend]
-```js
+@snap[south-east span-85 css code-noblend]
+``` css
 
+```
+@snapend
+
+---
+@title[xtra: load air-routes to Neo4j]
+@snap[north span-100]
+@css[headline](load air-routes.graphml file into Neo4j)
+@snapend
+
+@snap[south span-100 css code-noblend code-wrap text-02]
+``` css zoom-07
+//load air-routes.graphml
+WITH "file:///Users/Michael.Moore4@ey.com/Documents/GitHub/learn-gremlin-jupyter-notebook/data/air-routes.graphml" AS url
+CALL apoc.import.graphml(url,{readLabels:true,storeNodeIds:true})
+YIELD nodes, relationships RETURN nodes, relationships;
+
+// set labels per Neo4j convention
+MATCH (n)
+WHERE labels(n) = []
+WITH n, apoc.text.capitalize(n.labelV) as label
+CALL apoc.create.addLabels([n],[label]) YIELD node
+RETURN COUNT(node);
+
+// set rels per Neo4j convention
+MATCH ()-[r:route]-()
+CALL apoc.refactor.setType(r,'ROUTE')
+YIELD output
+RETURN COUNT(output);
+
+MATCH ()-[r:contains]-()
+CALL apoc.refactor.setType(r,'CONTAINS')
+YIELD output
+RETURN COUNT(output);
 ```
 @snapend
