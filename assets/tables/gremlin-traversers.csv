@@ -1,0 +1,12 @@
+Traverser,Option,Description,Cypher Equivalent
+.out(),.out(label),Outgoing adjacent vertices,b in ( a )-[ r ]->( b )
+.in(),.in(label),Incoming adjacent vertices,b in ( a )<-[ r ]-( b )
+.both(),.both(label),Both incoming and outgoing adjacent vertices,b in ( a )-[ r ]-( b )
+.outE(),.outE(label),Outgoing incident edges,r in ( a )-[ r ]->( b )
+.inE(),.inE(label),Incoming incident edges,r in ( a )<-[ r ]-( b )
+.bothE(),.bothE(label),Both outgoing and incoming incident edges,r in ( a )-[ r ]-( b )
+.bothV(),no label,Both outgoing and incoming incident vertices, a & b in ( a )-[ r ]-( b )
+.outV(),no label,Outgoing vertex,a in ( a )-[ r ]->( b )
+.inV(),no label,Incoming vertex,a in ( a )<-[ r ]-( b )
+.otherV(),no label,The vertex that was not the vertex we came from,b in ( a )-[ r ]->( b ) =or=
+,,,a in ( a )<-[ r ]->( b )

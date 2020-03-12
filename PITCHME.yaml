@@ -29,15 +29,10 @@ transition : none
 
 code-line-numbers : false
 
-#charts : true
-#mathjax : TeX-AMS_HTML-full
-
+charts : true
+mathjax : TeX-AMS_HTML-full
 
 theme-override   : assets/css/PITCHME.css
-
-title : "gremlin"
-description : "gremlin for cypher developers"
-footnote : "there is no try, only do and do not"
 
 # PITCHME-DOT-YAML-SETTINGS-THEME-BUILDER-GENERATED-START
 theme            : template
@@ -54,3 +49,7 @@ logo             : assets/img/logo.png
 logo-position    : top-left
 layout           : center-right
 # PITCHME-DOT-YAML-SETTINGS-THEME-BUILDER-GENERATED-END
+
+title : "(Gremlin)-[:FOR]->(CypherDevs)"
+description : "gremlin for cypher developers"
+footnote : "there is no try, only do and do not"

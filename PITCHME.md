@@ -6,6 +6,9 @@
 
 for cypher developers
 
+*** michael moore, ph.d. ***
+
+*** march, 2020 ***
 ---
 @title[gremlin vs cypher]
 @snap[north span-100]
@@ -118,7 +121,7 @@ let's start
 @title[setup a sandbox]
 @snap[north-east span-100]
 ## a learning sandbox
-@css[headline](... the non-I DE for gremlin...)
+@css[headline](... yes, there is no gremlin IDE ...)
 @snapend
 
 @snap[west span-100 text-06]
@@ -140,8 +143,8 @@ let's start
 ## gremlin server
 @snapend
 
-@snap[south span-100 code-noblend code-wrap text-02]
-```css zoom-06
+@snap[south span-100 css code-noblend code-wrap text-02]
+``` css zoom-06
 
 Usage: bin/gremlin-server.sh {start|stop|restart|status|console|install <group> <artifact> <version>|<conf file>}
     start        Start the server in the background using conf/gremlin-server.yaml as the default configuration file
@@ -444,6 +447,15 @@ RETURN {'airport_code':n.code,
 @snapend
 
 ---
+
+@title[traversers]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](gremlin traversal functions with cypher equivalents)
+@table[text-05](/assets/tables/gremlin-traversers.csv)
+@snapend
+
+---
 @title[count outgoing rels]
 @snap[north span-100]
 ## gremlin ••• cypher
@@ -739,7 +751,7 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](load air-routes.graphml file into Neo4j)
 @snapend
 
-@snap[south span-100 css code-noblend code-wrap text-02]
+@snap[span-100 code-noblend code-wrap text-01]
 ``` css zoom-07
 //load air-routes.graphml
 WITH "file:///Users/Michael.Moore4@ey.com/Documents/GitHub/learn-gremlin-jupyter-notebook/data/air-routes.graphml" AS url
@@ -763,5 +775,21 @@ MATCH ()-[r:contains]-()
 CALL apoc.refactor.setType(r,'CONTAINS')
 YIELD output
 RETURN COUNT(output);
+```
+@snapend
+
++++
+@title[add id constraints]
+@snap[north span-100]
+@css[headline](add constraint on node .id property)
+@snapend
+
+@snap[span-100 code-noblend code-wrap text-01]
+``` css zoom-07
+// set constraints on id property (not the same as id(n))
+CREATE CONSTRAINT ON (n:Airport) ASSERT n.id IS UNIQUE;
+CREATE CONSTRAINT ON (n:Country) ASSERT n.id IS UNIQUE;
+CREATE CONSTRAINT ON (n:Continent) ASSERT n.id IS UNIQUE;
+CREATE CONSTRAINT ON (n:Version) ASSERT n.id IS UNIQUE;
 ```
 @snapend
