@@ -143,8 +143,8 @@ let's start
 ## gremlin server
 @snapend
 
-@snap[south span-100 css code-noblend code-wrap text-02]
-``` css zoom-06
+@snap[south span-100 plaintext code-noblend code-wrap text-02]
+``` plaintext zoom-06
 
 Usage: bin/gremlin-server.sh {start|stop|restart|status|console|install <group> <artifact> <version>|<conf file>}
     start        Start the server in the background using conf/gremlin-server.yaml as the default configuration file
@@ -178,8 +178,8 @@ Server to run in the foreground or specify it via the GREMLIN_YAML environment v
 ## gremlin console
 @snapend
 
-@snap[south span-100 code-noblend code-wrap text-02]
-```css zoom-06
+@snap[south span-100 plaintext code-noblend code-wrap text-02]
+``` plaintext zoom-06
 (base) USC02ZX15JMD6R:apache-tinkerpop-gremlin-console-3.4.4 Michael.Moore4@ey.com$ bin/gremlin.sh
          \ooo/
          (o o)
@@ -280,7 +280,7 @@ g.V().limit(5)
 ==>v[3]
 ==>v[4]
 ```
-** see vertex ids? **
+** see the vertex ids? **
 @snapend
 
 @snap[east span-48 css code-noblend]
@@ -307,7 +307,7 @@ g.V(3).valueMap().unfold()
 ==>city=[Austin]
 ==>elev=[542]
 ```
-** key value pair on each row of output **
+** rows of key value pairs **
 @snapend
 
 @snap[east span-48 css code-noblend]

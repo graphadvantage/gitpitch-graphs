@@ -34,6 +34,11 @@ mathjax : TeX-AMS_HTML-full
 
 theme-override   : assets/css/PITCHME.css
 
+
+title : "(Gremlin)-[:FOR]->(CypherDevs)"
+description : "gremlin for cypher developers"
+footnote : "there is no try, only do and do not"
+
 # PITCHME-DOT-YAML-SETTINGS-THEME-BUILDER-GENERATED-START
 theme            : template
 theme-background : [ "#1E5C97" ]
@@ -42,14 +47,10 @@ theme-byline     : [ "Montserrat", "#FFFFFF", "none", "#74FAA8", "100", "110", "
 theme-text       : [ "Raleway", "#FFFFFF", "none", "#24D7B0", "100", "100", "15" ]
 theme-links      : [ "#E67E22", "#E27924" ]
 theme-code       : [ "Source Code Pro", "120", "120" ]
-highlight        : monokai-sublime
+highlight        : hybrid
 theme-controls   : [ "#C0C0C0" ]
 theme-margins    : [ "0", "15px" ]
 logo             : assets/img/logo.png
 logo-position    : top-left
 layout           : center-right
 # PITCHME-DOT-YAML-SETTINGS-THEME-BUILDER-GENERATED-END
-
-title : "(Gremlin)-[:FOR]->(CypherDevs)"
-description : "gremlin for cypher developers"
-footnote : "there is no try, only do and do not"
