@@ -637,7 +637,7 @@ ORDER BY r.dist DESC LIMIT 1
 @css[headline](counting groups)
 @snapend
 
-@snap[west span-85 css code-noblend]
+@snap[west span-100 css code-noblend]
 ``` css
 g.V().groupCount().
       by(label)
@@ -678,123 +678,8 @@ g.V().hasLabel('country').
 @snap[south-east span-85 css code-noblend]
 ``` css
 
-MATCH (c:Country)-[:Contains]->(a)
+MATCH (c:Country)-[:CONTAINS]->(a)
 RETURN c.desc,COUNT(a)
-
-```
-@snapend
-
----
-
-@title[make a node]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](make a node)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[update node props]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](update properties)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[make a rel]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](make a relationship)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[recursion]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](recursive queries)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[loops]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](loops)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[pattern matching]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](pattern matching)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
 
 ```
 @snapend
