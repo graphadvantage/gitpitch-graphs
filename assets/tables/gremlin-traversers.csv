@@ -8,5 +8,5 @@ Traverser,Option,Description,Cypher Equivalent
 .bothV(),no label,Both outgoing and incoming incident vertices, a & b in ( a )-[ r ]-( b )
 .outV(),no label,Outgoing vertex,a in ( a )-[ r ]->( b )
 .inV(),no label,Incoming vertex,a in ( a )<-[ r ]-( b )
-.otherV(),no label,The vertex that was not the vertex we came from,b in ( a )-[ r ]->( b ) =or=
-,,,a in ( a )<-[ r ]->( b )
+.otherV(),no label,The vertex that was not the vertex we came from,b in ( a )-[ r ]->( b ) and
+,,,a in ( a )<-[ r ]-( b )

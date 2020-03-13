@@ -1,6 +1,4 @@
 
----
-
 @title[title]
 # gremlin
 
@@ -13,6 +11,7 @@ for cypher developers
 @title[gremlin vs cypher]
 @snap[north span-100]
 ## gremlin ••• cypher
+@css[headline](introduction to gremlin)
 @snapend
 
 @snap[west span-48]
@@ -25,6 +24,12 @@ for cypher developers
 @box[bg-green text-white waved  box-padding](...is a declarative graph language with functional support)
 @snapend
 
+
+
+@snap[south span-100 text-05]
+*** this training assumes that you are familiar with Neo4j Cypher and the basics of the graph data model ***
+
+*** [learn more about Neo4j](http:neo4j.com) ***
 ---
 @title[things to know]
 @snap[north span-100]
@@ -33,6 +38,7 @@ for cypher developers
 @snapend
 
 @snap[span-100 text-07 ]
+@far[lightbulb fa-3x]
 * One label per node (no label-based set logic operations)
 * Data can be stored on vertices (nodes) and edges (rels)
 * Import data: `graph.io(graphml()).readGraph(‘file’)`
@@ -51,6 +57,7 @@ for cypher developers
 @snapend
 
 @snap[south-west span-50 text-06]
+@fab[github fa-3x]
 #### cheatsheet
 [gremlin cheatsheet](https://dkuppitz.github.io/gremlin-cheat-sheet/101.html)
 
@@ -69,6 +76,7 @@ for cypher developers
 @snapend
 
 @snap[east span-50 text-06 code-noblend]
+@fab[docker fa-3x]
 #### docker images
 ```docker zoom-08
 docker pull gremlin-local_neptune-ui            
@@ -113,9 +121,9 @@ docker pull neueda/cypher-gremlin-console
 
 ---
 
-@title[let's start]
+@title[part 1. the setup]
 
-let's start
+part 1. the setup
 
 ---
 @title[setup a sandbox]
@@ -205,7 +213,86 @@ gremlin> :remote console
 ==>All scripts will now be sent to Gremlin Server - [localhost/127.0.0.1:8182, localhost/0:0:0:0:0:0:0:1:8182] - type ':remote console' to return to local mode
 
 ```
+
 @snapend
+
++++
+@title[opencypher on intelliJ]
+
+@snap[west]
+![width=800](/assets/img/intellij.png)
+@snapend
+
+@snap[north-east span-25]
+@css[headline](running OpenCypher on Gremlin with intelliJ)
+@snapend
+
+@snap[east span-25 text-06]
+*** OpenCypher resources ***
+[openCypher](https://github.com/opencypher/openCypher)
+[cypher for gremlin](https://github.com/opencypher/cypher-for-gremlin)
+[graph database plugin for intelliJ](https://github.com/neueda/jetbrains-plugin-graph-database-support)
+@snapend
+
++++
+@title[opencypher on intelliJ]
+@snap[north-west span-20]
+@css[headline](Neueda graph database plugin)
+@snapend
+
+@snap[south span-100 text-06]
+1. download and install [intelliJ](https://www.jetbrains.com/idea/download/#section=mac)
+2. add Neueda graph support plugin, review supported operations (more limited)
+@snapend
+
+@snap[east]
+![width=800](/assets/img/intellij-plugin.png)
+@snapend
+
+@snap[south-west]
+![width=650](/assets/img/gremlin-flavor.png)
+@snapend
+
++++
+@title[load air-routes to Neo4j]
+@snap[north span-100]
+@css[headline](load air-routes.graphml file into Neo4j)
+@snapend
+
+@snap[span-100 code-noblend]
+``` css max-code zoom-05
+
+//load air-routes.graphml
+WITH "file:///<path-to>/GitHub/learn-gremlin-jupyter-notebook/data/air-routes.graphml" AS url
+CALL apoc.import.graphml(url,{readLabels:true,storeNodeIds:true})
+YIELD nodes, relationships RETURN nodes, relationships;
+
+// set labels & rels per Neo4j convention
+MATCH (n)
+WHERE labels(n) = []
+WITH n, apoc.text.capitalize(n.labelV) as label
+CALL apoc.create.addLabels([n],[label]) YIELD node
+RETURN COUNT(node);
+
+MATCH ()-[r:route]-()
+CALL apoc.refactor.setType(r,'ROUTE')
+YIELD output
+RETURN COUNT(output);
+
+MATCH ()-[r:contains]-()
+CALL apoc.refactor.setType(r,'CONTAINS')
+YIELD output
+RETURN COUNT(output);
+
+// set constraints on id property (not the same as id(n))
+CREATE CONSTRAINT ON (n:Airport) ASSERT n.id IS UNIQUE;
+CREATE CONSTRAINT ON (n:Country) ASSERT n.id IS UNIQUE;
+CREATE CONSTRAINT ON (n:Continent) ASSERT n.id IS UNIQUE;
+CREATE CONSTRAINT ON (n:Version) ASSERT n.id IS UNIQUE;
+
+```
+@snapend
+
 ---
 @title[gremlin notebooks]
 @snap[north-east span-100]
@@ -262,6 +349,12 @@ g.V().limit(30)
 
 
 @snapend
+
+---
+
+@title[part 2. the basics]
+
+part 2. the basics
 
 ---
 @title[get some nodes]
@@ -537,6 +630,62 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
+
+@title[grouping]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](counting groups)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+g.V().groupCount().
+      by(label)
+
+==>{continent=7, country=237, version=1, airport=3374}
+```
+*** notice the explicit use of .by() ***
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+
+MATCH (n)
+RETURN labels(n), COUNT(n)
+
+```
+@snapend
+
+---
+@title[nested grouping]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](nested grouping)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+g.V().hasLabel('country').
+    group().
+    by('desc').
+    by(out().count())
+
+==>{Papua New Guinea=26, ... Saint Helena=2}
+```
+*** why are there two .by() steps? ***
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+
+MATCH (c:Country)-[:Contains]->(a)
+RETURN c.desc,COUNT(a)
+
+```
+@snapend
+
+---
+
 @title[make a node]
 @snap[north span-100]
 ## gremlin ••• cypher
@@ -594,101 +743,6 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
-@title[refactor from list]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](refactor from list iterator)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[use parameters]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](use parameters)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[optional matching]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](optional matching)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[static variables]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](create and pass static variable)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
-@title[pattern matching]
-@snap[north span-100]
-## gremlin ••• cypher
-@css[headline](pattern matching)
-@snapend
-
-@snap[west span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
-@snap[south-east span-85 css code-noblend]
-``` css
-
-```
-@snapend
-
----
 @title[recursion]
 @snap[north span-100]
 ## gremlin ••• cypher
@@ -727,10 +781,10 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
-@title[grouping]
+@title[pattern matching]
 @snap[north span-100]
 ## gremlin ••• cypher
-@css[headline](grouping)
+@css[headline](pattern matching)
 @snapend
 
 @snap[west span-85 css code-noblend]
@@ -746,50 +800,8 @@ ORDER BY r.dist DESC LIMIT 1
 @snapend
 
 ---
-@title[xtra: load air-routes to Neo4j]
-@snap[north span-100]
-@css[headline](load air-routes.graphml file into Neo4j)
-@snapend
 
-@snap[span-100 code-noblend code-wrap text-01]
-``` css zoom-07
-//load air-routes.graphml
-WITH "file:///Users/Michael.Moore4@ey.com/Documents/GitHub/learn-gremlin-jupyter-notebook/data/air-routes.graphml" AS url
-CALL apoc.import.graphml(url,{readLabels:true,storeNodeIds:true})
-YIELD nodes, relationships RETURN nodes, relationships;
 
-// set labels per Neo4j convention
-MATCH (n)
-WHERE labels(n) = []
-WITH n, apoc.text.capitalize(n.labelV) as label
-CALL apoc.create.addLabels([n],[label]) YIELD node
-RETURN COUNT(node);
+@title[part 3. the next level]
 
-// set rels per Neo4j convention
-MATCH ()-[r:route]-()
-CALL apoc.refactor.setType(r,'ROUTE')
-YIELD output
-RETURN COUNT(output);
-
-MATCH ()-[r:contains]-()
-CALL apoc.refactor.setType(r,'CONTAINS')
-YIELD output
-RETURN COUNT(output);
-```
-@snapend
-
-+++
-@title[add id constraints]
-@snap[north span-100]
-@css[headline](add constraint on node .id property)
-@snapend
-
-@snap[span-100 code-noblend code-wrap text-01]
-``` css zoom-07
-// set constraints on id property (not the same as id(n))
-CREATE CONSTRAINT ON (n:Airport) ASSERT n.id IS UNIQUE;
-CREATE CONSTRAINT ON (n:Country) ASSERT n.id IS UNIQUE;
-CREATE CONSTRAINT ON (n:Continent) ASSERT n.id IS UNIQUE;
-CREATE CONSTRAINT ON (n:Version) ASSERT n.id IS UNIQUE;
-```
-@snapend
+part 3. the next level
