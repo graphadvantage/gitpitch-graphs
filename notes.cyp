@@ -1,3 +1,5 @@
+docker run -it -v /Users/Michael.Moore4@ey.com/Documents/GitHub/gitpitch-graphs:/repo -p 9000:9000 gitpitch/desktop:pro
+
 WITH "file:///Users/Michael.Moore4@ey.com/Documents/GitHub/learn-gremlin-jupyter-notebook/data/air-routes.graphml" AS url
 CALL apoc.import.graphml(url,{readLabels:true,storeNodeIds:true})
 YIELD nodes, relationships RETURN nodes, relationships;

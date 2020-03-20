@@ -39,8 +39,9 @@ for cypher developers
 
 @snap[span-100 text-07 ]
 @far[lightbulb fa-3x]
-* One label per node (no label-based set logic operations)
+
 * Data can be stored on vertices (nodes) and edges (rels)
+* Multiple labels not supported OOTB (Neptune provides partial support)
 * Import data: `graph.io(graphml()).readGraph(‘file’)`
 * Delete graph: `g.V().drop().iterate()`
 * `.next()` is used  to manage output rowsets => `RETURN`
@@ -133,16 +134,17 @@ part 1. the setup
 @snapend
 
 @snap[west span-100 text-06]
+1. install java JDK 1.8 (windows users should also install 7zip for unzipping files)
 1. install and start gremlin console `$ bin/gremlin.sh`  [download](http://tinkerpop.apache.org/downloads.html)
 1. install and start gremlin server `$ bin/gremlin-server.sh console`  [download](http://tinkerpop.apache.org/downloads.html)
-1. install anaconda /jupyter notebook [download](https://www.anaconda.com/distribution/)
-1. from terminal `$ pip install gremlinpython`
-1. and `$ pip install nbfinder`
+1. install anaconda /jupyter notebook with elev privs [download](https://www.anaconda.com/distribution/)
+1. from terminal `$ pip install gremlinpython nbfinder`
 1. and `$ pip install jupyter notebook==5.7.8 tornado==4.5.3` [why?](https://github.com/jupyter/notebook/issues/3397)
-1. clone [learn-gremlin-jupyter-notebooks](https://github.com/AndrewChau/learn-gremlin-jupyter-notebook)
+1. clone [learn-gremlin-jupyter-notebooks](https://github.com/AndrewChau/learn-gremlin-jupyter-notebook) into your jupyter home directory
 1. run anaconda, start jupyter, open and run loader.ipynb, trust the notebook
 1. install node.js, clone, install and start [gremlin-visualizer](https://github.com/prabushitha/gremlin-visualizer)
 1. open gremlin console, remote to gremlin server, load air-routes graph (next slide)
+
 @snapend
 
 ---
@@ -213,7 +215,10 @@ gremlin> :remote console
 ==>All scripts will now be sent to Gremlin Server - [localhost/127.0.0.1:8182, localhost/0:0:0:0:0:0:0:1:8182] - type ':remote console' to return to local mode
 
 ```
+@snapend
 
+@snap[east span-33 plaintext code-noblend code-wrap]
+@box[bg-orange text-white text-04 rounded box-padding](@far[lightbulb fa-2x] windows use double backslash #gremlin> :> graph.io(graphml()).readGraph('C:\\\Users\\\path-to\\\air-routes.graphml'))
 @snapend
 
 +++
@@ -687,6 +692,295 @@ RETURN c.desc,COUNT(a)
 ---
 
 
+
+
 @title[part 3. the next level]
 
 part 3. the next level
+
+---
+@title[make a node with properties]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](make a node with properties)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+g.addV('airport').
+      property('code','XYZ').
+      valueMap()
+```
+** what is the label for this node?
+what is the property for this node? **
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+CREATE (n:Airport {code: 'XYZ'})
+RETURN n
+```
+@snapend
+
+---
+@title[create node with property list accumulation]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](create node with property list accumulation)
+@snapend
+
+@snap[west span-100 css code-noblend]
+``` css
+g.addV('vendingMachine').
+      property('candybars','snickers').
+      property('candybars','mounds').
+      property('drinks','coke').
+      property('candybars','kit-kat').
+      valueMap()
+
+==>{candybars=[snickers, mounds, kit-kat], drinks=[coke]}
+```
+** that's interesting! **
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+CREATE (n:VendingMachine)
+SET
+n.candybars = ['snickers','mounds','kit-kat'],
+n.drinks = ['coke']
+```
+@snapend
+
+
+---
+@title[update properties on existing node]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](update/overwrite properties)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+g.addV('vendingMachine').next()
+g.V().hasLabel('vendingMachine').
+      property('candybars','snickers').
+      property('candybars','mounds').
+      property('drinks','coke').
+      property('candybars','kit-kat').valueMap()
+
+==>{drinks=[coke], candybars=[kit-kat]}
+```
+** why do we have a different result? **
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+CREATE (n:VendingMachine)
+SET n.candybars='snickers', n.candybars='mounds',
+n.drinks = 'coke', n.candybars = 'kit-kat'
+RETURN n
+```
+@snapend
+
+---
+@title[mutiple_labels]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](setting and querying multiple labels)
+@snapend
+
+@snap[west span-90 css code-noblend]
+
+** neptune's multi-label implementation **
+``` css
+g.V().addLabels("Label1:Label2")
+```
+** gremlin set logic AND - OR - NOT **
+``` css
+g.V().hasLabel("Label1").hasLabel("Label2")
+g.V().or(hasLabel("Label1"),hasLabel("Label2"))
+g.V().hasLabel("Label1").not(hasLabel("Label2"))
+```
+@snapend
+
+@snap[south-east span-100 css code-noblend]
+** and the cypher equivalents **
+``` css
+MATCH (n:Label1:Label2) RETURN n
+MATCH (n:Label1) RETURN n UNION MATCH (n:Label2) RETURN n
+MATCH (n:Label1) WHERE NOT n:Label2 RETURN n
+```
+@snapend
+
+---
+
+@title[make a rel]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](make a relationship with properties)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+g.V().has('code','SEA').
+      addE('route').
+      property('dist','way too far!').
+      to(V().has('code','MIA')).
+      valueMap()
+
+==>{dist=way too far!}
+```
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+MATCH (a {code:'SEA'}), (b {code: 'MIA'})
+CREATE (a)-[r:ROUTE]->(b)
+SET r.dist = 'way to far!'
+
+```
+@snapend
+---
+@title[node introspection]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](node introspection)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+g.V().has('code','SFO').valueMap().
+    with(WithOptions.tokens).unfold()
+
+==>id=23
+==>label=airport
+==>country=[US]
+==>code=[SFO]
+```
+** we get the node id, label, and all props **
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+MATCH (n {code: 'SFO'})
+RETURN id(n), labels(n), n
+```
+@snapend
+
+---
+@title[relationships introspection]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](relationship introspection)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+g.E().has('dist','way too far!').
+    valueMap().
+    with(WithOptions.tokens).
+    unfold()
+
+==>id=41230
+==>label=route
+==>dist=way too far
+```
+** we get the relationship id, label, and props **
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+MATCH ()-[r]-()
+WHERE r.dist = 'way too far!'
+RETURN id(r), type(r), r
+```
+@snapend
+
+
+
+---
+@title[recursion]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](recursive queries)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+ g.V().hasLabel('airport').
+      has('code','SEA').
+      out().out().out().
+      dedup().count()
+
+==>2977
+```
+*** how many hops? why use .dedup()? ***
+@snapend
+
+@snap[south-east span-85 css code-noblend]
+``` css
+MATCH (a:Airport {code: 'SEA'})-->()-->()-->(b)
+RETURN COUNT(DISTINCT b)
+
+```
+@snapend
+---
+@title[compact recursion]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](recursive queries - compact)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+ g.V().hasLabel('airport').
+      has('code','SEA').
+      repeat(outE('route').inV()).times(3).
+      dedup().count()
+
+==>2977
+```
+*** why include `outE('route').inV()` ? ***
+@snapend
+
+@snap[south-east span-90 css code-noblend]
+``` css
+MATCH (a:Airport {code: 'SEA'})-[:ROUTE *3]->(b)
+RETURN COUNT(DISTINCT b)
+
+```
+@snapend
+
+---
+@title[loops]
+@snap[north span-100]
+## gremlin ••• cypher
+@css[headline](loops)
+@snapend
+
+@snap[west span-85 css code-noblend]
+``` css
+g.V()has('code','LHR').
+     repeat(out().simplePath()).
+        emit(has('region','US-NY')).
+        until(has('code','AUS')).
+     path().by('code').limit(4)
+
+ ==>path[LHR, AUS]
+ ==>path[LHR, JFK]
+ ==>path[LHR, EWR]
+ ==>path[LHR, GIG, JFK]
+```
+@snapend
+
+@snap[south-east span-95 css code-noblend]
+``` css
+MATCH p1 = (n:Airport {code:'LHR'})-->(c {code:'AUS'})
+MATCH  p2 = (n:Airport {code:'LHR'})-->(b)-->(c {code:'AUS'})
+WHERE b.region = 'US-NY'
+RETURN extract(x IN p1| x.code),extract(y IN p1| y.code)
+```
+@snapend
+
+---
