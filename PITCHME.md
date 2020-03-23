@@ -959,27 +959,36 @@ RETURN COUNT(DISTINCT b)
 @css[headline](loops)
 @snapend
 
-@snap[west span-85 css code-noblend]
+@snap[east span-85 css code-noblend]
 ``` css
 g.V()has('code','LHR').
      repeat(out().simplePath()).
         emit(has('region','US-NY')).
         until(has('code','AUS')).
-     path().by('code').limit(4)
+     path().by('code').limit(10)
 
  ==>path[LHR, AUS]
  ==>path[LHR, JFK]
  ==>path[LHR, EWR]
  ==>path[LHR, GIG, JFK]
 ```
+
+** cypher below **
 @snapend
 
-@snap[south-east span-95 css code-noblend]
++++
+
+@snap[east span-100 css code-noblend]
 ``` css
-MATCH p1 = (n:Airport {code:'LHR'})-->(c {code:'AUS'})
-MATCH  p2 = (n:Airport {code:'LHR'})-->(b)-->(c {code:'AUS'})
+MATCH p1=(n:Airport {code:'LHR'})-->(c {code:'AUS'})
+WITH COLLECT(DISTINCT [x in nodes(p1) | x.code]) AS directs
+MATCH p2=(n:Airport {code:'LHR'})-->(b)-->(c {code:'AUS'})
 WHERE b.region = 'US-NY'
-RETURN extract(x IN p1| x.code),extract(y IN p1| y.code)
+WITH directs,
+COLLECT(DISTINCT [x in nodes(p2) | x.code]) AS stopovers
+WITH (apoc.coll.union(directs,stopovers)) AS flights
+UNWIND flights AS flight
+RETURN flight ORDER BY length(flight)
 ```
 @snapend
 
