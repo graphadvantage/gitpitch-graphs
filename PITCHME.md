@@ -961,7 +961,7 @@ RETURN COUNT(DISTINCT b)
 
 @snap[east span-85 css code-noblend]
 ``` css
-g.V()has('code','LHR').
+g.V().has('code','LHR').
      repeat(out().simplePath()).
         emit(has('region','US-NY')).
         until(has('code','AUS')).
